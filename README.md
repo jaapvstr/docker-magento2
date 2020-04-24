@@ -8,7 +8,7 @@
 
 This repo provides Docker images for different Magento 2 versions. Refer to [this page](https://hub.docker.com/r/alexcheng/magento2/tags/) to see all available tags. It uses the same convention as my [Docker image for Magento 1.x](https://github.com/alexcheng1982/docker-magento).
 
-This docker image is based on my [docker-apache2-php7](https://github.com/alexcheng1982/docker-apache2-php7) image for Apache 2 and PHP 7. Please refer to the image label `php_version` for the actual PHP version. In general, Magento `2.1.x` uses latest PHP `7.0.x`, Magento `2.2.x` uses latest PHP `7.1.x`, and `2.3.x` uses latest PHP `7.2.x`. Please refer to the label `php_version` of the image to get the actual PHP version.
+This docker image is based on the [docker-apache2-php7](https://github.com/alexcheng1982/docker-apache2-php7) image for Apache 2 and PHP 7. Please refer to the image label `php_version` for the actual PHP version. In general, Magento `2.1.x` uses latest PHP `7.0.x`, Magento `2.2.x` uses latest PHP `7.1.x`, and `2.3.x` uses latest PHP `7.2.x`. Please refer to the label `php_version` of the image to get the actual PHP version.
 
 > This docker image is based on [phusion/baseimage-docker](https://github.com/phusion/baseimage-docker) with Ubuntu 18.04 LTS. The reason to use `phusion/baseimage-docker` is to support multiple processes, which is important to get cron jobs working in Mangento.
 
@@ -100,6 +100,31 @@ The default `docker-compose.yml` uses MySQL as the database and starts [phpMyAdm
 
 Magento starts support of MySQL 5.7 in version `2.1.2`. Before `2.1.2`, MySQL 5.6 should be used.
 
+## Backup and restore of volume data
+
+After starting the container, you'll see the setup page of Magento 2. If you want to skip installation you can restore existing installation data.
+
+### Restore
+~~~
+$ docker-compose down --volumes
+$ docker volume create docker-magento2_db-data
+$ docker run --rm -v docker-magento2_db-data:/recover -v %cd%/backup:/backup ubuntu bash -c "cd /recover && tar xzpvf /backup/backup_db.tgz --strip 3"
+$ docker volume create docker-magento2_magento-data
+$ docker run --rm -v docker-magento2_magento-data:/recover -v %cd%/backup:/backup ubuntu bash -c "cd /recover && tar xzpvf /backup/backup_web.tgz --strip 3"
+docker-compose up -d
+~~~
+
+### Backup
+~~~
+$ docker-compose stop
+
+#spin a temporary ubuntu container that will download the backup to the local drive
+$ docker run --rm --volumes-from docker-magento2_db_1 -v %cd%/backup:/backup ubuntu tar czvf /backup/backup_db.tgz /var/lib/mysql
+$ docker run --rm --volumes-from docker-magento2_web_1 -v %cd%/backup:/backup ubuntu tar czvf /backup/backup_web.tgz /var/www/html
+
+$ docker-compose start
+~~~
+
 ## FAQ
 
 ### How to keep installed Magento?
@@ -149,7 +174,7 @@ You can keep the extensions and themes directories on your local host machine, a
 version: '3.0'
 services:
   web:
-    image: alexcheng/magento2
+    image: jaapvstr/magento2
     ports:
       - "80:80"
     links:
@@ -161,7 +186,7 @@ services:
   db:
     image: mysql:5.6.23
     volumes:
-      - db-data:/var/lib/mysql/data
+      - db-data:/var/lib/mysql
     env_file:
       - env
   phpmyadmin:
