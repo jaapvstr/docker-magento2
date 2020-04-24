@@ -111,17 +111,14 @@ $ docker volume create docker-magento2_db-data
 $ docker run --rm -v docker-magento2_db-data:/recover -v %cd%/backup:/backup ubuntu bash -c "cd /recover && tar xzpvf /backup/backup_db.tgz --strip 3"
 $ docker volume create docker-magento2_magento-data
 $ docker run --rm -v docker-magento2_magento-data:/recover -v %cd%/backup:/backup ubuntu bash -c "cd /recover && tar xzpvf /backup/backup_web.tgz --strip 3"
-docker-compose up -d
+$ docker-compose up -d
 ~~~
 
 ### Backup
 ~~~
 $ docker-compose stop
-
-#spin a temporary ubuntu container that will download the backup to the local drive
 $ docker run --rm --volumes-from docker-magento2_db_1 -v %cd%/backup:/backup ubuntu tar czvf /backup/backup_db.tgz /var/lib/mysql
 $ docker run --rm --volumes-from docker-magento2_web_1 -v %cd%/backup:/backup ubuntu tar czvf /backup/backup_web.tgz /var/www/html
-
 $ docker-compose start
 ~~~
 
