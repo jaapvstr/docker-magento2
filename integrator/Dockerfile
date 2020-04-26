@@ -42,7 +42,7 @@ RUN yes '' | pecl install mcrypt-1.0.3 \
     && echo 'extension=mcrypt.so' > /usr/local/etc/php/conf.d/mcrypt.ini
 
 #INSTALL XDEBUG
-#RUN pecl install xdebug-2.7.0RC1 && docker-php-ext-enable xdebug
+RUN pecl install xdebug-2.9.5 && docker-php-ext-enable xdebug
 #XDEBUG
 
 #INSTALL APCU
