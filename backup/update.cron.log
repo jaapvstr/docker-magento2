@@ -1,0 +1,9 @@
+
+Warning: mkdir(): File exists in /var/www/html/update/cron.php on line 38
+
+Warning: mkdir(): File exists in /var/www/html/update/cron.php on line 38
+
+Warning: mkdir(): File exists in /var/www/html/update/cron.php on line 38
+update-cron: Please check var/log/update.log for execution summary.
+update-cron: Please check var/log/update.log for execution summary.
+update-cron: Please check var/log/update.log for execution summary.
