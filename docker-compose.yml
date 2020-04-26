@@ -4,6 +4,7 @@ services:
     image: jaapvstr/magento2:xdebug
     ports:
       - "80:80"
+      - "9000:9000"
     links:
       - db
     volumes: 
