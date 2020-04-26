@@ -43,6 +43,33 @@ RUN yes '' | pecl install mcrypt-1.0.3 \
 
 #INSTALL XDEBUG
 RUN pecl install xdebug-2.9.5 && docker-php-ext-enable xdebug
+
+#Add XDebug profiler and traces to the magento log directory
+RUN { \
+	echo 'xdebug.remote_enable=1'; \
+	echo 'xdebug.profiler_enable=0'; \
+	echo 'xdebug.profiler_enable_trigger=1'; \
+	echo 'xdebug.profiler_output_dir=/var/www/html/var/log'; \
+	echo 'xdebug.trace_enable_trigger=On'; \
+	echo 'xdebug.trace_output_dir=/var/www/html/var/log'; \
+	} >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini 
+
+#Other options possible:	
+#/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#xdebug.remote_enable=1
+#xdebug.profiler_enable=0
+#xdebug.profiler_enable_trigger=1
+#xdebug.profiler_output_dir=/var/www/html/var/log
+#garbage collection
+#xdebug.gc_stats_enable	Off	Off
+#xdebug.gc_stats_output_dir	/tmp	/tmp
+#xdebug.gc_stats_output_name
+#xdebug.trace_enable_trigger	Off	Off
+#xdebug.trace_enable_trigger_value	no value	no value
+#xdebug.trace_format	0	0
+#xdebug.trace_options	0	0
+#xdebug.trace_output_dir	/tmp	/tmp
+#xdebug.trace_output_name	trace.%c	trace.%c
 #XDEBUG
 
 #INSTALL APCU

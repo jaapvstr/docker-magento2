@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   web:
-    image: jaapvstr/magento2:latest
+    image: jaapvstr/magento2:xdebug
     ports:
       - "80:80"
     links:
