@@ -47,6 +47,7 @@ RUN pecl install xdebug-2.9.5 && docker-php-ext-enable xdebug
 #Add XDebug profiler and traces to the magento log directory
 RUN { \
 	echo 'xdebug.remote_enable=1'; \
+	echo 'xdebug.remote_host=host.docker.internal'; \
 	echo 'xdebug.profiler_enable=0'; \
 	echo 'xdebug.profiler_enable_trigger=1'; \
 	echo 'xdebug.profiler_output_dir=/var/www/html/var/log'; \
@@ -57,6 +58,8 @@ RUN { \
 #Other options possible:	
 #/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 #xdebug.remote_enable=1
+#xdebug.remote_host=host.docker.internal
+#xdebug.remote_port=??? | Port 9000 is the default
 #xdebug.profiler_enable=0
 #xdebug.profiler_enable_trigger=1
 #xdebug.profiler_output_dir=/var/www/html/var/log
