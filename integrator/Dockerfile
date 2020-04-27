@@ -56,11 +56,15 @@ RUN { \
 	echo 'xdebug.trace_enable_trigger=On'; \
 	echo 'xdebug.trace_output_dir=/var/www/html/var/log'; \
 	echo 'xdebug.trace_output_name=trace.%s.%u'; \
-	echo 'xdebug.collect_params=1'; \
 	} >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini 
 
 #Other options possible:	
 #/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# these options show more debugging info, but seem to impact speed:
+#	echo 'xdebug.collect_params=1'; \
+#	echo 'xdebug.collect_vars=1'; \
+#	echo 'xdebug.collect_assignments=1'; \
+#
 #xdebug.remote_enable=1
 #xdebug.remote_host=host.docker.internal
 #xdebug.remote_port=??? | Port 9000 is the default
