@@ -55,7 +55,7 @@ RUN { \
 	echo 'xdebug.profiler_output_name=profile.%s.%u'; \
 	echo 'xdebug.trace_enable_trigger=On'; \
 	echo 'xdebug.trace_output_dir=/var/www/html/var/log'; \
-	echo 'xdebug.trace_output_name=trace.%s.%u; \
+	echo 'xdebug.trace_output_name=trace.%s.%u'; \
 	echo 'xdebug.collect_params=1'; \
 	} >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini 
 
